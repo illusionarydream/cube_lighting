@@ -1,8 +1,0 @@
-[
-{
-  "directory": "D:/illusionary_document/cpp/problem_solving_and_practice/fltk_project2/build",
-  "command": "D:\\mingw64\\bin\\g++.exe  @CMakeFiles/my_code.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\my_code.dir\\main.cpp.obj -c D:\\illusionary_document\\cpp\\problem_solving_and_practice\\fltk_project2\\main.cpp",
-  "file": "D:/illusionary_document/cpp/problem_solving_and_practice/fltk_project2/main.cpp",
-  "output": "CMakeFiles/my_code.dir/main.cpp.obj"
-}
-]
