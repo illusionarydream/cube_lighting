@@ -1,0 +1,2 @@
+example1.mp4example1.mkv filter=lfs diff=lfs merge=lfs -text
+result/example1.mkv filter=lfs diff=lfs merge=lfs -text
