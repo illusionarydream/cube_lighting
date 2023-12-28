@@ -2,6 +2,7 @@
 #define ENVIRONMENT_LIGHT_HPP
 #include <eigen3/Eigen/Eigen>
 #include <vector>
+//ok
 using namespace Eigen;
 struct light{
     Vector3f intensity;
