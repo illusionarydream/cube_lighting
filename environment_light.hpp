@@ -8,6 +8,7 @@ struct light{
     Vector3f intensity;
     Vector4f pos;
     Vector4f view_pos;
+    Vector4f screen_pos;
     light() {}
     void set_intensity(Vector3f intensity){
         this->intensity=intensity;

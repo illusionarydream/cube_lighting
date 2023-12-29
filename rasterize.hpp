@@ -197,6 +197,21 @@ void rasterize::all_rasterize(triangles ts){
         // consider the bounding pixel as 0
         
     }
+    for(auto &l:el.lights){
+        l.screen_pos = screen * projection * l.view_pos;
+        l.screen_pos = l.screen_pos / l.screen_pos[3];
+        int lx=l.screen_pos.x();
+        int ly=l.screen_pos.y();
+        for(int i=-4;i<=4;i++)
+            for(int j=-4;j<=4;j++)
+            if(lx+i>=0&&lx+i<W&&ly+j>=0&&ly+j<H){
+                int ind=get_ind(lx+i,ly+j);
+                if(dep_buf[ind]<l.screen_pos.z()){
+                    col_buf[ind]+=255.0/25.0*l.intensity*std::exp(-0.1*(i*i+j*j));
+                }
+            }
+
+    }
     if(use_kernal){
         for(int i=left_min;i<=right_max;i++)
             for(int j=bottom_min;j<=top_max;j++){

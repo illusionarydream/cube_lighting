@@ -706,6 +706,22 @@ CMakeFiles/my_code.dir/main.cpp.obj: \
  D:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32/bits/c++io.h \
  D:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/fstream.tcc \
  D:\illusionary_document\cpp\problem_solving_and_practice\fltk_project2\sphere_calculation.hpp \
+ D:\illusionary_document\cpp\problem_solving_and_practice\fltk_project2\axis.hpp \
+ D:/msys64/mingw64/include/FL/Fl_box.H \
+ D:/msys64/mingw64/include/FL/fl_draw.H D:/msys64/mingw64/include/FL/x.H \
+ D:/msys64/mingw64/include/FL/Enumerations.H \
+ D:/msys64/mingw64/include/FL/win32.H \
+ D:/msys64/mingw64/include/FL/Fl_Window.H \
+ D:/msys64/mingw64/include/FL/Enumerations.H \
+ D:/msys64/mingw64/include/FL/Fl_Device.H \
+ D:/msys64/mingw64/include/FL/Fl_Plugin.H \
+ D:/msys64/mingw64/include/FL/Fl_Preferences.H \
+ D:/msys64/mingw64/include/FL/Fl_Export.H \
+ D:/msys64/mingw64/include/FL/Fl_Image.H \
+ D:/msys64/mingw64/include/FL/Fl_Bitmap.H \
+ D:/msys64/mingw64/include/FL/Fl_Pixmap.H \
+ D:/msys64/mingw64/include/FL/x.H \
+ D:/msys64/mingw64/include/FL/Fl_RGB_Image.H \
  D:/illusionary_document/cpp/mylibrary/OpenCV-MinGW-Build-OpenCV-3.4.1-x64/include/opencv2/opencv.hpp \
  D:/illusionary_document/cpp/mylibrary/OpenCV-MinGW-Build-OpenCV-3.4.1-x64/include/opencv2/opencv_modules.hpp \
  D:/illusionary_document/cpp/mylibrary/OpenCV-MinGW-Build-OpenCV-3.4.1-x64/include/opencv2/core.hpp \

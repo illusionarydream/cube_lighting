@@ -17,6 +17,7 @@
 #include "rasterize.hpp"
 #include "OBJ_Loader.hpp"
 #include "sphere_calculation.hpp"
+#include "axis.hpp"
 #include <opencv2/opencv.hpp>
 #include <queue>
 #define M_PI 3.14159265358979323846
@@ -156,6 +157,7 @@ private:
     Fl_Input y_input;
     Fl_Input z_input;
     Fl_Input intensity_input;
+    Axis_box axis_box;
     Fl_Browser browser;
     environment_light el;
     Fl_Button add_button; 
@@ -203,7 +205,7 @@ private:
             return ;
         }
         std::cout<<x<<' '<<y<<' '<<z<<' '<<intensity<<std::endl;
-        if(window->judge_if_in_the_cube(x,y,z)==1||intensity<=0){
+        if(window->judge_if_in_the_cube(x,y,z)==1||intensity<=0||intensity>=25||std::abs(x)>=5||std::abs(y)>=5||std::abs(z)>=5){
             window->x_input.value("");
             window->y_input.value("");
             window->z_input.value("");
@@ -214,6 +216,7 @@ private:
         l->set_intensity(Vector3f(intensity, intensity, intensity));
         l->set_pos(Vector4f(x, y, z, 1));
         window->el.add_light(*l);
+        window->axis_box.add_light(*l);
         window->x_input.value("");
         window->y_input.value("");
         window->z_input.value("");
@@ -233,6 +236,7 @@ private:
         std::cout<<window->el.lights.size()<<std::endl;
         if (index > 0) {
             window->el.del_light(index - 1);
+            window->axis_box.del_light();
             window->browser.remove(index);
         }
         window->redraw();
@@ -340,7 +344,7 @@ private:
         // rastrize
         rasterize r(W, H);
         r.set_eye_fov(60.0f / 180.0f * M_PI);
-        r.set_near_far(-0.5f, -5.0f);
+        r.set_near_far(-0.5f, -10.0f);
         r.set_model();
         r.set_projection();
         r.set_screen();
@@ -356,7 +360,7 @@ private:
         for(int i=1;i<360;i+=pace)
             for(int j=1;j<180;j+=pace){
                 // set basic information
-                auto view_pos=produce_view_pos(5.0f,i/180.0f*M_PI,j/180.0f*M_PI);
+                auto view_pos=produce_view_pos(8.0f,i/180.0f*M_PI,j/180.0f*M_PI);
                 auto g=from_pos_to_g(view_pos);
                 auto t=from_pos_to_t(view_pos);
                 r.set_view_pos(view_pos);
@@ -440,6 +444,7 @@ private:
         window->browser.show();
         window->continue_button.show();
         window->Back_button1.show();
+        window->axis_box.show();
         window->redraw();
     }
     static void continue_cb(Fl_Widget *w, void *data) {
@@ -454,6 +459,7 @@ private:
         window->browser.deactivate();
         window->continue_button.deactivate();
         window->Back_button1.deactivate();
+        window->axis_box.deactivate();
         window->Back_button1.hide();
         window->x_input.hide();
         window->y_input.hide();
@@ -464,6 +470,7 @@ private:
         window->rasterize_button.hide();
         window->browser.hide();
         window->continue_button.hide();
+        window->axis_box.hide();
         window->MSAA_button.activate();
         window->kernel_button.activate();
         window->resolution_button.activate();
@@ -525,6 +532,7 @@ private:
         window->browser.activate();
         window->continue_button.activate(); 
         window->Back_button1.activate();
+        window->axis_box.activate();
         window->x_input.show();
         window->y_input.show();
         window->z_input.show();
@@ -534,6 +542,7 @@ private:
         window->browser.show();
         window->continue_button.show();
         window->Back_button1.show();
+        window->axis_box.show();
         window->redraw();
     }
 public:
@@ -549,15 +558,16 @@ public:
         start_box(0, 0, w, h, ""),
         start_button(w/2-75, h/2+50, 150, 45, "Start"),
 
-        x_input(w/2-100, 60, 200, 30, "X of light"),
-        y_input(w/2-100, 90, 200, 30, "Y of light"),
-        z_input(w/2-100, 120, 200, 30, "Z of light"),
-        intensity_input(w/2-100, 150, 200, 30, "Intensity"),
-        add_button(w/2-100, 180, 100, 30, "Add"),
-        delete_button(w/2, 180, 100, 30, "Delete"),
-        continue_button(w/2-100, 410, 100, 30, "Continue"),
-        Back_button1(w/2, 410, 100, 30, "Back"),
-        browser(w/2-200, 210, 400, 200, ""),
+        x_input(20, 50, 80, 30, "X"),
+        y_input(20, 80, 80, 30, "Y"),
+        z_input(20, 110, 80, 30, "Z"),
+        intensity_input(20, 140, 80, 30, "I"),
+        add_button(0, 170, 100, 30, "Add"),
+        delete_button(0, 200, 100, 30, "Delete"),
+        continue_button(0, 402, 100, 30, "Continue"),
+        Back_button1(0, 432, 100, 30, "Back"),
+        browser(0, 230, 100, 202, ""),
+        axis_box(100, 50, 412, 412),
 
         kernel_button(w/2-75, 180, 150, 30, "Kernel"),
         resolution_button(w/2-75, 210, 150, 30, "Resolution"),
@@ -585,9 +595,16 @@ public:
         progress.selection_color(FL_GRAY);
         progress.hide();
         progress.deactivate();
+        Fl_PNG_Image *img2 = new Fl_PNG_Image("../white_background.png");
+        axis_box.image(img2->copy(412,412));
+        axis_box.set_eye_fov(60.0f / 180.0f * M_PI);
+        axis_box.set_near_far(-0.5f, -10.0f);
+        axis_box.set_view_pos(Vector4f(5,5,5,1));
+        axis_box.get_MVPS();
         box.deactivate();
         box.hide();
         box_show_in_process.hide();
+        axis_box.hide();
         x_input.hide();
         y_input.hide();
         z_input.hide();
@@ -605,6 +622,7 @@ public:
         Back_button1.deactivate();
         Back_button2.deactivate();
         box_show_in_process.deactivate();
+        axis_box.deactivate();
         x_input.deactivate();
         y_input.deactivate();
         z_input.deactivate();
